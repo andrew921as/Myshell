@@ -18,7 +18,7 @@
  * @param[out] tamano de la cadena leida
 */
 
-int leer_de_teclado(int size, char* cadena) {
+int leer_de_teclado(int size, char* cadena) { 
   fgets(cadena, size, stdin);
   cadena[strlen(cadena) - 1] = '\x0';
 
