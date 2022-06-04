@@ -33,6 +33,7 @@ int leer_de_teclado(int size, char* cadena) {
   delim: Cadena delimitadora (Segundo parametro de strtok)
   malloc: asignacion dinamica de memoria(se le asigna un bloque de memoria al programa)
   strdup: es una copia del token
+  strncpy: Copia del string
 */
 
 char** de_cadena_a_vector(char* cadena) {
