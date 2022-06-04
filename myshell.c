@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 
 				}
 					contadorhijos=0;
+					continue;
 	
 		}
 		comando = de_cadena_a_vector(command);
@@ -52,7 +53,6 @@ int main(int argc, char *argv[])
 			
 			//Contador para agregar un espacio al hijo
 			f=f+1;
-			printf("Estoy aqui :D \n");
 			
 		}else{
 			back = 0;
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 			{
 				wait(NULL);
 			}else{
-				sleep(0.5);
+				sleep(1);
 				direcciones[f]=pid;
 			
 			}			
