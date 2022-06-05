@@ -8,91 +8,81 @@
 
 int main(int argc, char *argv[])
 {	
-	int f=-1;
+	int f=-1, i, back, cont=0, posicion=0, objetivo=0, contadorhijos=0;
 	char command[256];
 	char **comando;
 	char primera[10];
-	int i;
-	int back;
 	pid_t pid;
 	int direcciones[30];
-	int contadorhijos=0;
-	int objetivo=0;
-	int posicion=0;
-	int cont=1;
 	
 	while (1)
 	{	
 		printf("Usuario@Usuario:~$ ");
 		leer_de_teclado(256, command);
 
-
 		if (strcmp(command, "salir") == 0)
 			break;
+
+		// Si el comando ingresado es "tareas", devuelve una lista de pids de los procesos ejecutados en segundo plano
 		if (strcmp(command, "tareas") == 0)
 		{
+				
 				while(contadorhijos<=f)
 				{
+					
 					if (direcciones[contadorhijos]!=0)
 					{
-						printf("[%d] - %d\n",cont++ ,direcciones[contadorhijos++]);
+						cont++;
+						printf("[%d] - %d\n",cont,direcciones[contadorhijos++]);
 					}
 					else 
 					{
 						contadorhijos++;
 					}
+					
 				}
-				cont=1; 
+
+				if (cont==0)
+				{
+					printf("No hay tareas ejecutandose en segundo plano\n");
+				} 
+
+				cont=0; 
 				contadorhijos=0;
 				continue;
-	
 		}
 		
 		comando = de_cadena_a_vector(command);
-
 		i = 0;	
 		while (comando[i])
 		{
 			i++;
 		}
 		
-
+		// Si el comando ingresado es "detener" se elimina el proceso en segundo plano cuyo pid corresponda al digitado por el usuario 
 		if (strcmp(comando[0], "detener") == 0)
 		{
 			
 			objetivo = strtol(comando[i-1],NULL,10);
-			printf("objetivo: %d \n",objetivo);
-			
-
 			
 			while (posicion<=f)
 			{	
-		
-				printf("la direccion que quiero: %d \n",direcciones[posicion]);
-				printf(" mi objetivo%d \n",objetivo);
 				if (direcciones[posicion]==objetivo)
 				{
-					printf("QUE SE DICE  \n");
 					kill (objetivo,SIGKILL); 
 					direcciones [posicion]=0;
-					break;
-					
+					break;				
 				}
 				
 				posicion++;
 			}
 			
-
-			printf("mi posicion es %d \n",posicion);
 			continue;
 		}
-		//-------------------------------------------------------
-		// Editamos nosotros
-		strncpy(primera, comando[0], strlen(*comando));
-		
-// AQUI YO TENIA UN WHILE que tenia la i
 
-		//Evaluar si el proceso se corre en segundo plano. 
+		strncpy(primera, comando[0], strlen(*comando));
+
+		//If que Evalua si el proceso se corre en segundo plano. 
 		if (strcmp(comando[i - 1], "&") == 0)
 		{
 			comando[i - 1] = NULL;
@@ -106,12 +96,18 @@ int main(int argc, char *argv[])
 		}
 
 		//-------------------------------------------------------
+
 		//CREACION DEL HIJO
 		pid = fork();	
 		assert(pid >= 0);
 		if (pid == 0)
 		{
 			execvp(comando[0], comando);
+			if (execvp(comando[0], comando)==-1)
+			{
+				printf("Comando no valido\n");
+				exit(EXIT_FAILURE);	
+			}
 		}
 		else {
 			//Validamos el proceso en background 

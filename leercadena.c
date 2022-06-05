@@ -24,8 +24,9 @@ int leer_de_teclado(int size, char* cadena) {
 
   return strlen(cadena);
 } 
+
 /*
-  DESCUBRIMIENTOS DE C
+  GLOSARIO DE C
   assert: se encarga de devolver errores y diagnosticar el programa
   char** Es un puntero al puntero de una cadena de caracteres
   strtok: divide una cadena en tokens (cadena "a dividir", delim "delimitador por el cual va a dividir la cadena")
