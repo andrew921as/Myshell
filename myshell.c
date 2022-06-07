@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
 	int f=-1, i, back, cont=0, posicion=0, objetivo=0, contadorhijos=0;
 	char command[256];
 	char **comando;
-	char primera[10];
 	pid_t pid;
 	int direcciones[30];
 	
@@ -52,6 +51,7 @@ int main(int argc, char *argv[])
 				continue;
 		}
 		
+		// Vector ** de la cadena original capturada 
 		comando = de_cadena_a_vector(command);
 		i = 0;	
 		while (comando[i])
@@ -59,7 +59,8 @@ int main(int argc, char *argv[])
 			i++;
 		}
 		
-		// Si el comando ingresado es "detener" se elimina el proceso en segundo plano cuyo pid corresponda al digitado por el usuario 
+		// Si el comando ingresado es "detener" se elimina el proceso en segundo plano cuyo pid 
+		// corresponda al digitado por el usuario 
 		if (strcmp(comando[0], "detener") == 0)
 		{
 			
@@ -76,11 +77,9 @@ int main(int argc, char *argv[])
 				
 				posicion++;
 			}
-			
+			posicion=0;
 			continue;
 		}
-
-		strncpy(primera, comando[0], strlen(*comando));
 
 		//If que Evalua si el proceso se corre en segundo plano. 
 		if (strcmp(comando[i - 1], "&") == 0)
@@ -106,6 +105,7 @@ int main(int argc, char *argv[])
 			if (execvp(comando[0], comando)==-1)
 			{
 				printf("Comando no valido\n");
+				sleep (1);
 				exit(EXIT_FAILURE);	
 			}
 		}
